@@ -1,23 +1,57 @@
-# Compiled class file
-*.class
+public static void main(String []args){
+       
+         int employeeCount=8;
+           
+           HashMap<Integer,String> goodies =  new HashMap<Integer,String>();
+           goodies.put(7980,"FitBit");
+           goodies.put(22349,"Ipods");
+           goodies.put(9800,"Oven");
+           goodies.put(9999,"Alexa");
+           goodies.put(2195,"Toaster");
+           goodies.put(11101,"Camera");
+           
+        HashMap<Integer,String> goodiesForDistribution= selectGoodies(goodies,employeeCount);
+        if(goodiesForDistribution.size()>0) {
+        		   for(Map.Entry<Integer,String> entry: goodiesForDistribution.entrySet()) {
+        			   System.out.println(entry.getValue() + ":" + entry.getKey());
+        		   }
+        }else {
+        		 System.out.println("Number of goodies less than number of employees");
+        	   }
+     }
 
-# Log file
-*.log
+public static HashMap<Integer,String> selectGoodies(HashMap<Integer,String> goodies,int employeeCount){
+           HashMap<Integer,String> goodiesForDistribution =  new HashMap<Integer,String>();
+           if(employeeCount<=goodies.size()) {
 
-# BlueJ files
-*.ctxt
+        	   List<Integer> keyList = new ArrayList<Integer>(goodies.keySet());
+        	   Collections.sort(keyList); 
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+            
+        	   int midPosition =keyList.size()/2;
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+        	   if(employeeCount>1) {
+        		   goodiesForDistribution.put(keyList.get(midPosition-1),goodies.get(keyList.get(midPosition-1)));
+        	   }
+        	   int x= midPosition-1;
+        	   int y =midPosition;
+        	   for(int i=1;i<employeeCount;i=i+2) {
+        	       goodiesForDistribution.put(keyList.get(x),goodies.get(keyList.get(x)));
+        		   x--;
+        		   
+        		   goodiesForDistribution.put(keyList.get(y),goodies.get(keyList.get(y)));
+        		   y++;
+        		   
+        	   }
+        	   if(goodiesForDistribution.size()<employeeCount) {
+        		   if(keyList.get(x)!=null) {
+        			   goodiesForDistribution.put(keyList.get(y),goodies.get(keyList.get(y)));
+        		   }
+        		   else {
+        			   goodiesForDistribution.put(keyList.get(x),goodies.get(keyList.get(x)));
+        		   }
+        	   }
+           }
+           return goodiesForDistribution;
+    }
+    
